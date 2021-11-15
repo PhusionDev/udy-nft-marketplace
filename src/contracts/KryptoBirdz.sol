@@ -7,16 +7,22 @@ contract Kryptobird is ERC721Connector {
     // array to store our NFTs
     string[] public kryptoBirdz;
 
+    mapping(string => bool) _kryptoBirdzExists;
+
     function mint(string memory _kryptoBird) public {
         // this is deprecated
         // .push() no longer returns the length, but a ref
         // to the added element
         // uint _id = KryptoBirdz.push(_kryptoBird);
 
+        require(!_kryptoBirdzExists[_kryptoBird], 'Error - kryptoBird already exists');
+        
         kryptoBirdz.push(_kryptoBird);
         uint _id = kryptoBirdz.length - 1;
 
         _mint(msg.sender, _id);
+
+        _kryptoBirdzExists[_kryptoBird] = true;
     }
 
     constructor() ERC721Connector('KryptoBird','KBIRDZ'){
