@@ -3,6 +3,7 @@ pragma solidity ^0.8.0;
 
 contract ERC721 {
     event Transfer(address indexed from, address indexed to, uint256 indexed tokenId);
+    event Approval(address indexed owner, address indexed approved, uint256 indexed tokenId);
 
     // mapping from token id to the owner
     mapping(uint256 => address) private _tokenOwner;
@@ -21,6 +22,22 @@ contract ERC721 {
         _ownedTokensCount[to]++;
 
         emit Transfer(address(0), to, tokenId);
+    }
+
+    function _transferFrom(address _from, address _to, uint256 _tokenId) internal {
+        require(_to != address(0), 'Error: ERC721 transfer to the zero address');
+        require(this.ownerOf(_tokenId) == _from, 'Trying to transfer a token the address does not own');
+
+        _ownedTokensCount[_from] -= 1;
+        _ownedTokensCount[_to] += 1;
+
+        _tokenOwner[_tokenId] = _to;
+
+        emit Transfer(_from, _to, _tokenId);
+    }
+
+    function transferFrom(address _from, address _to, uint256 _tokenId) external payable {
+        _transferFrom(_from, _to, _tokenId);
     }
 
     /// @notice Count all NFTs assigned to an owner
@@ -49,4 +66,10 @@ contract ERC721 {
         // returns truthiness the address is not zero
         return owner != address(0);
     }
+
+    // 1. require that the person approving is the owner
+    // 2. we are approving an address to a token (tokenId)
+    // 3. require that we can't approve sending tokens of the owner
+    // to the owner (current caller)
+    // 4. 
 }
