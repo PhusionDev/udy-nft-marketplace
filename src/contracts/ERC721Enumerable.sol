@@ -1,7 +1,9 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-contract ERC721Enumerable {
+import './ERC721.sol';
+
+contract ERC721Enumerable is ERC721 {
     uint256[] private _allTokens;
 
     /// @notice Count NFTs tracked by this contract
@@ -28,6 +30,10 @@ contract ERC721Enumerable {
     /// @return The token identifier for the `_index`th NFT assigned to `_owner`,
     ///   (sort order not specified)
     function tokenOfOwnerByIndex(address _owner, uint256 _index) external view returns (uint256) {
+
+    }
+
+    function _mint(address to, uint256 tokenId) internal override(ERC721) {
 
     }
 }
