@@ -20,12 +20,15 @@ contract ERC721Enumerable is ERC721 {
         return _allTokens.length;
     }
 
-    function tokenByIndex(uint256 _index) external view returns (uint256) {
-
+    function tokenByIndex(uint256 index) public view returns (uint256) {
+        // make sure that the index is not out of bounds of the total supply
+        require(index < totalSupply(), 'global index is out of bounds');
+        return _allTokens[index];
     }
 
-    function tokenOfOwnerByIndex(address _owner, uint256 _index) external view returns (uint256) {
-
+    function tokenOfOwnerByIndex(address owner, uint256 index) public view returns (uint256) {
+        require(index < this.balanceOf(owner),'owner index is out of bounds');
+        return _ownedTokens[owner][index];
     }
 
     function _mint(address to, uint256 tokenId) internal override(ERC721) {
