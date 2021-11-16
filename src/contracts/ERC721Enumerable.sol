@@ -18,7 +18,7 @@ contract ERC721Enumerable is ERC721 {
     /// @notice Count NFTs tracked by this contract
     /// @return A count of valid NFTs tracked by this contract, where each one of
     ///  them has an assigned and queryable owner not equal to the zero address
-    function totalSupply() external view returns (uint256) {
+    function totalSupply() public view returns (uint256) {
         return _allTokens.length;
     }
 
@@ -44,5 +44,11 @@ contract ERC721Enumerable is ERC721 {
 
     function _mint(address to, uint256 tokenId) internal override(ERC721) {
         super._mint(to, tokenId);
+
+        _addTokensToTotalSupply(tokenId);
+    }
+
+    function _addTokensToTotalSupply(uint256 tokenId) private {
+        _allTokens.push(tokenId);
     }
 }
