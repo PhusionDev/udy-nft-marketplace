@@ -15,6 +15,7 @@ contract ERC721Enumerable is ERC721 {
     // mapping from token ID index of the owner tokens list
     mapping(uint256 => uint256) private _ownedTokensIndex;
 
+    // return the total supply of the _allTokens array
     function totalSupply() public view returns (uint256) {
         return _allTokens.length;
     }
@@ -31,8 +32,17 @@ contract ERC721Enumerable is ERC721 {
         super._mint(to, tokenId);
 
         _addTokensToAllTokenEnumeration(tokenId);
+        _addTokensToOwnerEnumeration(to, tokenId);
     }
 
+    function _addTokensToOwnerEnumeration(address to, uint256 tokenId) private {
+        // 1. ownedTokensIndex tokenId set to address of ownedTokens position
+        _ownedTokensIndex[tokenId] = _ownedTokens[to].length;
+        // 2. add address and tokenId to the _ownedTokens
+        _ownedTokens[to].push(tokenId);
+    }
+
+    // add tokens to the _allTokens array and set the position of the tokens indexes
     function _addTokensToAllTokenEnumeration(uint256 tokenId) private {
         _allTokensIndex[tokenId] = _allTokens.length;
         _allTokens.push(tokenId);
