@@ -40,6 +40,7 @@ contract ERC721 {
     }
 
     function transferFrom(address _from, address _to, uint256 _tokenId) external payable {
+        require(_isApprovedOrOwner(msg.sender, _tokenId),'error - transaction is not from owner or approved');
         _transferFrom(_from, _to, _tokenId);
     }
 
@@ -82,5 +83,11 @@ contract ERC721 {
         _tokenApprovals[_tokenId] = _to;
         
         emit Approval(owner, _to, _tokenId);
+    }
+
+    function _isApprovedOrOwner(address _spender, uint256 _tokenId) internal view returns(bool)  {
+        require(_exists(_tokenId), 'token does not exist');
+        address owner = this.ownerOf(_tokenId);
+        return (_spender == owner);
     }
 }
