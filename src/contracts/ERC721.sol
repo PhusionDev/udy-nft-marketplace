@@ -11,6 +11,9 @@ contract ERC721 {
     // mapping from owner to number of owned tokens
     mapping(address => uint256) private _ownedTokensCount;
 
+    // mapping from token id to approved addresses
+    mapping(uint256 => address) private _tokenApprovals;
+
     function _mint(address to, uint256 tokenId) internal virtual {
         // requires that the address isn't zero
         require(to != address(0), 'ERC721: minting to the zero address');
@@ -71,5 +74,13 @@ contract ERC721 {
     // 2. we are approving an address to a token (tokenId)
     // 3. require that we can't approve sending tokens of the owner
     // to the owner (current caller)
-    // 4. 
+    // 4. update the map of the approval addresses
+    function approve(address _to, uint256 _tokenId) public {
+        address owner = this.ownerOf(_tokenId);
+        require(_to != owner, 'Error - approval to current owner');
+        require(msg.sender == owner, 'Error - current caller is not token owner');
+        _tokenApprovals[_tokenId] = _to;
+        
+        emit Approval(owner, _to, _tokenId);
+    }
 }
