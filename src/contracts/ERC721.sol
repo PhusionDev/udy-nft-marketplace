@@ -15,6 +15,16 @@ contract ERC721 is ERC165, IERC721 {
     // mapping from token id to approved addresses
     mapping(uint256 => address) private _tokenApprovals;
 
+    constructor() {
+        _registerInterface(
+            bytes4(
+                keccak256('balanceOf(address)')^
+                keccak256('ownerOf(uint256)')^
+                keccak256('transferFrom(address,address,uint256)')
+            )
+        );
+    }
+
     function _mint(address to, uint256 tokenId) internal virtual {
         // requires that the address isn't zero
         require(to != address(0), 'ERC721: minting to the zero address');
