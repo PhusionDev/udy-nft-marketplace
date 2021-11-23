@@ -59,4 +59,26 @@ contract('KryptoBird', (accounts) => {
       await contract.mint('https...1').should.be.rejected;
     });
   });
+
+  describe('indexing', async () => {
+    it('lists KryptoBirdz', async () => {
+      // mint three new tokens
+      await contract.mint('https...2');
+      await contract.mint('https...3');
+      await contract.mint('https...4');
+      const totalSupply = await contract.totalSupply();
+
+      // loop through list and grab KBIRDZ
+      let result = [];
+      let kb;
+      for (let i = 0; i < totalSupply; i++) {
+        kb = await contract.kryptoBirdz(i);
+        result.push(kb);
+      }
+
+      // assert that our new array result will equal our expected result
+      let expected = ['https...1', 'https...2', 'https...3', 'https...4'];
+      assert.equal(result.join(','), expected.join(','));
+    });
+  });
 });
