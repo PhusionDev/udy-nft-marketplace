@@ -22,5 +22,17 @@ contract('KryptoBird', (accounts) => {
       assert.notEqual(address, undefined);
       assert.notEqual(address, 0x0);
     });
+
+    it('has name KryptoBird', async () => {
+      const tokenName = await contract.name();
+
+      assert.equal(tokenName, 'KryptoBird');
+    });
+
+    it('has symbol KBIRDZ', async () => {
+      const tokenSymbol = await contract.symbol();
+
+      assert.equal(tokenSymbol, 'KBIRDZ');
+    });
   });
 });
