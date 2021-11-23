@@ -10,11 +10,15 @@ require('chai')
 contract('KryptoBird', (accounts) => {
   let contract;
 
+  // before tells our tests to run this first before anything else
+  before(async () => {
+    contract = await KryptoBird.deployed();
+  });
+
   // testing container - describe
   describe('deployment', async () => {
     // test samples with writing it
     it('deploys successfully', async () => {
-      contract = await KryptoBird.deployed();
       const address = contract.address;
 
       assert.notEqual(address, '');
@@ -33,6 +37,26 @@ contract('KryptoBird', (accounts) => {
       const tokenSymbol = await contract.symbol();
 
       assert.equal(tokenSymbol, 'KBIRDZ');
+    });
+  });
+
+  describe('minting', async () => {
+    it('creates a new token', async () => {
+      const result = await contract.mint('https...1');
+      const totalSupply = await contract.totalSupply();
+
+      // Success
+      assert.equal(totalSupply, 1);
+      const event = result.logs[0].args;
+      assert.equal(
+        event._from,
+        0x0000000000000000000000000000000000000000,
+        'to is msg.sender'
+      );
+      assert.equal(event._to, accounts[0], 'to is msg.sender');
+
+      // Failure
+      await contract.mint('https...1').should.be.rejected;
     });
   });
 });
