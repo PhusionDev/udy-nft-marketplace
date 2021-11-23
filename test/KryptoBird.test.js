@@ -1,5 +1,4 @@
-const assert = require('chai');
-const _deploy_contracts = require('../migrations/2_deploy_contracts');
+const { assert } = require('chai');
 
 const KryptoBird = artifacts.require('./KryptoBird');
 
@@ -16,6 +15,12 @@ contract('KryptoBird', (accounts) => {
     // test samples with writing it
     it('deploys successfully', async () => {
       contract = await KryptoBird.deployed();
+      const address = contract.address;
+
+      assert.notEqual(address, '');
+      assert.notEqual(address, null);
+      assert.notEqual(address, undefined);
+      assert.notEqual(address, 0x0);
     });
   });
 });
