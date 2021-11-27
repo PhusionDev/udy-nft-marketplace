@@ -27,7 +27,6 @@ class App extends Component {
     const web3 = window.web3;
     const acc = await web3.eth.getAccounts();
     this.setState({ account: acc[0] });
-    console.log(acc);
   }
 
   constructor(props) {
@@ -36,10 +35,23 @@ class App extends Component {
       account: "",
     };
   }
+
   render() {
     return (
       <div>
-        <h1>NFT Marketplace</h1>
+        <nav className="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
+          <div
+            className="navbar-brand col-sm-3 col-md-3 mr-0"
+            style={{ color: "white" }}
+          >
+            KryptoBirdz NFTs (Non Fungible Tokens)
+          </div>
+          <ul className="navbar-nav px-3">
+            <li className="nav-item text-nowrap d-none d-sm-none d-sm-block">
+              <small className="text-white">{this.state.account}</small>
+            </li>
+          </ul>
+        </nav>
       </div>
     );
   }
