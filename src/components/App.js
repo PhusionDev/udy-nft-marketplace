@@ -6,24 +6,30 @@ import KryptoBird from "../abis/KryptoBird.json";
 class App extends Component {
   async componentDidMount() {
     await this.loadWeb3();
+    await this.loadBlockchainData();
   }
 
   // first up is to detect ethereum provider
   async loadWeb3() {
-    const provider = await detectEthereumProvider();
-
-    // modern browsers
-    // if there's a provider then lets
-    // log that it's working and access the window from the doc
-    // to set web3 to the provider
-    if (provider) {
-      console.log("ethereum wallet is connected");
-      window.ethereum = new Web3(provider);
+    if (window.ethereum) {
+      window.web3 = new Web3(window.ethereum);
+      await window.ethereum.enable();
+    } else if (window.web3) {
+      window.web3 = new Web3(window.web3.currentProvider);
     } else {
-      // no ethereum provider
-      console.log("no ethereum wallet detected");
+      console.log(
+        "Non-Ethereum browser detected. You should consider trying MetaMask!"
+      );
     }
   }
+
+  async loadBlockchainData() {
+    const web3 = window.web3;
+    const acc = await web3.eth.getAccounts();
+    this.setState({ account: acc[0] });
+    console.log(acc);
+  }
+
   render() {
     return (
       <div>
