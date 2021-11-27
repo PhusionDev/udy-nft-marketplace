@@ -30,6 +30,12 @@ class App extends Component {
     console.log(acc);
   }
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      account: "",
+    };
+  }
   render() {
     return (
       <div>
