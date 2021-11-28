@@ -34,7 +34,18 @@ class App extends Component {
             const abi = KryptoBird.abi;
             const address = networkData.address;
             const contract = new web3.eth.Contract(abi, address);
-            console.log(contract);
+            this.setState({ contract });
+            console.log(this.state.contract);
+
+            const totalSupply = await contract.methods.totalSupply().call();
+            this.setState({ totalSupply });
+            console.log(this.state.totalSupply);
+
+            for (let i = 0; i < totalSupply; i++) {
+                const kb = await contract.methods.kryptoBirdz(i).call();
+            }
+        } else {
+            window.alert("Smart contract not deployed");
         }
     }
 
@@ -42,6 +53,9 @@ class App extends Component {
         super(props);
         this.state = {
             account: "",
+            contract: null,
+            totalSupply: 0,
+            kryptobirds: [],
         };
     }
 
