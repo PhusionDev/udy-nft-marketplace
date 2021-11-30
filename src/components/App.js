@@ -1,6 +1,14 @@
 import React, { Component } from 'react';
 import Web3 from 'web3';
 import KryptoBird from '../abis/KryptoBird.json';
+import {
+  MDBCard,
+  MDBCardBody,
+  MDBCardTitle,
+  MDBCardText,
+  MDBCardImage,
+  MDBBtn,
+} from 'mdb-react-ui-kit';
 
 class App extends Component {
   async componentDidMount() {
