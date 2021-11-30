@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import Web3 from "web3";
-import detectEthereumProvider from "@metamask/detect-provider";
 import KryptoBird from "../abis/KryptoBird.json";
 
 class App extends Component {
@@ -17,9 +16,9 @@ class App extends Component {
         } else if (window.web3) {
             window.web3 = new Web3(window.web3.currentProvider);
         } else {
-            console.log(
-                "Non-Ethereum browser detected. You should consider trying MetaMask!"
-            );
+            // console.log(
+            //     "Non-Ethereum browser detected. You should consider trying MetaMask!"
+            // );
         }
     }
 
@@ -35,23 +34,35 @@ class App extends Component {
             const address = networkData.address;
             const contract = new web3.eth.Contract(abi, address);
             this.setState({ contract });
-            console.log(this.state.contract);
+            // console.log(this.state.contract);
 
             const totalSupply = await contract.methods.totalSupply().call();
             this.setState({ totalSupply });
-            console.log(this.state.totalSupply);
+            // console.log(this.state.totalSupply);
 
             for (let i = 0; i < totalSupply; i++) {
-                const kb = await contract.methods.kryptoBirdz(i).call();
+                const kryptoBird = await contract.methods.kryptoBirdz(i).call();
                 this.setState({
-                    kryptoBirdz: [...this.state.kryptoBirdz, kb],
+                    kryptoBirdz: [...this.state.kryptoBirdz, kryptoBird],
                 });
             }
-            console.log(this.state.kryptoBirdz);
+            // console.log(this.state.kryptoBirdz);
         } else {
             window.alert("Smart contract not deployed");
         }
     }
+
+    // with minting we are sending information and we need to specify the account
+    mint = (kryptoBird) => {
+        this.state.contract.methods
+            .mint(kryptoBird)
+            .send({ from: this.state.account })
+            .once("receipt", (receipt) => {
+                this.setState({
+                    kryptoBirdz: [...this.state.kryptoBirdz, kryptoBird],
+                });
+            });
+    };
 
     constructor(props) {
         super(props);
