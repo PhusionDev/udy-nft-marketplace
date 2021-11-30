@@ -43,7 +43,11 @@ class App extends Component {
 
             for (let i = 0; i < totalSupply; i++) {
                 const kb = await contract.methods.kryptoBirdz(i).call();
+                this.setState({
+                    kryptoBirdz: [...this.state.kryptoBirdz, kb],
+                });
             }
+            console.log(this.state.kryptoBirdz);
         } else {
             window.alert("Smart contract not deployed");
         }
@@ -55,7 +59,7 @@ class App extends Component {
             account: "",
             contract: null,
             totalSupply: 0,
-            kryptobirds: [],
+            kryptoBirdz: [],
         };
     }
 
