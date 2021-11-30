@@ -136,6 +136,37 @@ class App extends Component {
               </div>
             </main>
           </div>
+
+          <hr></hr>
+
+          <div className="row textCenter">
+            {this.state.kryptoBirdz.map((kryptoBird, key) => {
+              return (
+                <div>
+                  <div>
+                    <MDBCard
+                      className="token img"
+                      style={{ maxWidth: '22rem' }}
+                    />
+                    <MDBCardImage
+                      src={kryptoBird}
+                      position="top"
+                      style={{ marginRight: '4px' }}
+                      height="250rem"
+                    />
+                    <MDBCardBody>
+                      <MDBCardTitle>KryptoBirdz</MDBCardTitle>
+                      <MDBCardText>
+                        The KryptoBirds are 20 uniquely generated KBirdz from
+                        the cyberpunk galaxy.
+                      </MDBCardText>
+                      <MDBBtn href={kryptoBird}>Download</MDBBtn>
+                    </MDBCardBody>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
         </div>
       </div>
     );
