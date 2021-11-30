@@ -101,6 +101,29 @@ class App extends Component {
                 <h1 style={{ color: 'white' }}>
                   KryptoBirdz - NFT Marketpalce
                 </h1>
+
+                <form
+                  onSubmit={(event) => {
+                    event.preventDefault();
+                    const kryptoBird = this.kryptoBird.value;
+                    this.mint(kryptoBird);
+                  }}
+                >
+                  <input
+                    type="text"
+                    placeholder="Add a file location"
+                    className="form-control mb-1"
+                    ref={(input) => {
+                      this.kryptoBird = input;
+                    }}
+                  />
+                  <input
+                    style={{ margin: '6px' }}
+                    type="submit"
+                    className="btn btn-primary btn-black"
+                    value="MINT"
+                  />
+                </form>
               </div>
             </main>
           </div>
