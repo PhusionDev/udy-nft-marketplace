@@ -9,6 +9,7 @@ import {
   MDBCardImage,
   MDBBtn,
 } from 'mdb-react-ui-kit';
+import './App.css';
 
 class App extends Component {
   async componentDidMount() {
@@ -84,7 +85,7 @@ class App extends Component {
 
   render() {
     return (
-      <div>
+      <div className="container-filled">
         {console.log(this.state.kryptoBirdz)}
         <nav className="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
           <div
@@ -107,7 +108,7 @@ class App extends Component {
                 className="content mr-auto ml-auto"
                 style={{ opacity: '0.8' }}
               >
-                <h1 style={{ color: 'white' }}>
+                <h1 style={{ color: 'black' }}>
                   KryptoBirdz - NFT Marketpalce
                 </h1>
 
@@ -147,21 +148,22 @@ class App extends Component {
                     <MDBCard
                       className="token img"
                       style={{ maxWidth: '22rem' }}
-                    />
-                    <MDBCardImage
-                      src={kryptoBird}
-                      position="top"
-                      style={{ marginRight: '4px' }}
-                      height="250rem"
-                    />
-                    <MDBCardBody>
-                      <MDBCardTitle>KryptoBirdz</MDBCardTitle>
-                      <MDBCardText>
-                        The KryptoBirds are 20 uniquely generated KBirdz from
-                        the cyberpunk galaxy.
-                      </MDBCardText>
-                      <MDBBtn href={kryptoBird}>Download</MDBBtn>
-                    </MDBCardBody>
+                    >
+                      <MDBCardImage
+                        src={kryptoBird}
+                        position="top"
+                        style={{ marginRight: '4px' }}
+                        height="250rem"
+                      />
+                      <MDBCardBody>
+                        <MDBCardTitle>KryptoBirdz</MDBCardTitle>
+                        <MDBCardText>
+                          The KryptoBirds are 20 uniquely generated KBirdz from
+                          the cyberpunk galaxy.
+                        </MDBCardText>
+                        <MDBBtn href={kryptoBird}>Download</MDBBtn>
+                      </MDBCardBody>
+                    </MDBCard>
                   </div>
                 </div>
               );
