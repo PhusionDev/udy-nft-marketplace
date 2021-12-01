@@ -3,14 +3,17 @@ pragma solidity ^0.8.0;
 
 import './ERC165.sol';
 import './interfaces/IERC721.sol';
+import './libraries/Counters.sol';
 
 contract ERC721 is ERC165, IERC721 {
+  using SafeMath for uint256;
+  using Counters for Counters.Counter;
 
     // mapping from token id to the owner
     mapping(uint256 => address) private _tokenOwner;
 
     // mapping from owner to number of owned tokens
-    mapping(address => uint256) private _ownedTokensCount;
+    mapping(address => Counters.Counter) private _ownedTokensCount;
 
     // mapping from token id to approved addresses
     mapping(uint256 => address) private _tokenApprovals;
@@ -36,7 +39,7 @@ contract ERC721 is ERC165, IERC721 {
         // we are adding a new address with a token id for minting
         _tokenOwner[tokenId] = to;
         // keeping track of each address that is minting and adding 1 to count
-        _ownedTokensCount[to]++;
+        _ownedTokensCount[to].increment();
 
         emit Transfer(address(0), to, tokenId);
     }
@@ -46,8 +49,8 @@ contract ERC721 is ERC165, IERC721 {
         require(_to != address(0), 'Error: ERC721 transfer to the zero address');
         require(this.ownerOf(_tokenId) == _from, 'Trying to transfer a token the address does not own');
 
-        _ownedTokensCount[_from] -= 1;
-        _ownedTokensCount[_to] += 1;
+        _ownedTokensCount[_from].decrement();
+        _ownedTokensCount[_to].increment();
 
         _tokenOwner[_tokenId] = _to;
 
@@ -66,7 +69,7 @@ contract ERC721 is ERC165, IERC721 {
     /// @return The number of NFTs owned by `_owner`, possibly zero
     function balanceOf(address _owner) external view override returns(uint256) {
         require(_owner != address(0), 'owner query for nonexistent token');
-        return _ownedTokensCount[_owner];
+        return _ownedTokensCount[_owner].current();
     }
 
     /// @notice Find the owner of an NFT
