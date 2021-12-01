@@ -25,6 +25,9 @@ contract ERC721 is ERC165, IERC721 {
         );
     }
 
+    // this function is not safe
+    // any types of mathematics can be held to dubious standards
+    // in SOLIDITY
     function _mint(address to, uint256 tokenId) internal virtual {
         // requires that the address isn't zero
         require(to != address(0), 'ERC721: minting to the zero address');
@@ -38,6 +41,7 @@ contract ERC721 is ERC165, IERC721 {
         emit Transfer(address(0), to, tokenId);
     }
 
+    // this is not safe
     function _transferFrom(address _from, address _to, uint256 _tokenId) internal {
         require(_to != address(0), 'Error: ERC721 transfer to the zero address');
         require(this.ownerOf(_tokenId) == _from, 'Trying to transfer a token the address does not own');
